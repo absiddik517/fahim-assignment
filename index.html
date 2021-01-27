@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-xs-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-xs-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-xs-5 center-item iphone">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default btn-minus"><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center quantity" value="1">
+                           <button class="btn btn-default btn-plus"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5 class="amount">$1219</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-xs-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-xs-5 center-item cover">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default btn-minus"><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center quantity" disabled="disabled" value="1">
+                           <button class="btn btn-default btn-plus"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5 class="amount">$59</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-xs-8">
+                        <h5>Subtotal:</h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-xs-4 status">
+                        <h5 id="subtotal"></h5>
+                        <h5 id="tax"></h5>
+                        <h5 id="total"></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   
+   
+   <script type="text/javascript" charset="utf-8">
+       
+       const s = {
+           iphone : {
+               plus : document.querySelector('.iphone .btn-plus'),
+               minus : document.querySelector('.iphone .btn-minus'),
+               quantity : document.querySelector('.iphone .quantity'),
+               amount : document.querySelector('.iphone .amount')
+           },
+           cover : {
+               plus : document.querySelector('.cover .btn-plus'),
+               minus : document.querySelector('.cover .btn-minus'),
+               quantity : document.querySelector('.cover .quantity'),
+               amount : document.querySelector('.cover .amount')
+           },
+           
+           subtotal : document.querySelector('#subtotal'),
+           tax : document.querySelector('#tax'),
+           total : document.querySelector('#total'),
+           btn : document.querySelector('.check-out'),
+           iphonePrice : 1219,
+           coverPrice : 59,
+           taxPercent : 2
+       };
+       
+       s.iphone.plus.addEventListener('click', function(e){
+           e.preventDefault;
+           var value = +s.iphone.quantity.value;
+           s.iphone.quantity.value = value + 1;
+           changePrice('iphone');
+       });
+       
+       s.iphone.minus.addEventListener('click', function(e){
+           e.preventDefault;
+           if(s.iphone.quantity.value > 0){
+               var value = +s.iphone.quantity.value;
+               s.iphone.quantity.value = value - 1;
+               changePrice('iphone');
+           }
+       });
+       
+       
+       s.cover.plus.addEventListener('click', function(e){
+           e.preventDefault;
+           var value = +s.cover.quantity.value;
+           s.cover.quantity.value = value + 1;
+           changePrice('cover');
+       });
+       
+       s.cover.minus.addEventListener('click', function(e){
+           e.preventDefault;
+           if(s.cover.quantity.value > 0){
+               var value = +s.cover.quantity.value;
+               s.cover.quantity.value = value - 1;
+               changePrice('cover');
+           }
+       });
+       
+       function changePrice(what){
+           if(what == 'iphone'){
+               s.iphone.amount.innerText = '$' + s.iphone.quantity.value * s.iphonePrice;
+           }else if(what == 'cover'){
+               s.cover.amount.innerText = '$' + s.cover.quantity.value * s.coverPrice;
+           }
+           
+       }
+       
+       let finish = function(){
+           
+           var iphoneAmount = s.iphone.quantity.value * s.iphonePrice;
+           var coverAmount = s.cover.quantity.value * s.coverPrice;
+           
+           var subtotal = iphoneAmount + coverAmount;
+           var tax = (subtotal * s.taxPercent)/100;
+           var total = subtotal + tax;
+           
+           s.subtotal.innerText = '$'+subtotal;
+           s.tax.innerText = '$'+tax;
+           s.total.innerText = '$'+total;
+       }
+       
+       s.btn.addEventListener('click', finish);
+       
+       finish();
+       
+       
+       
+       
+       
+   </script>
+</body>
+
+</html>
